@@ -1,7 +1,9 @@
 package com.example.placar
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -35,6 +37,20 @@ class MainActivity : AppCompatActivity() {
             playerTwoScore++
             binding.tvPlayerTwoScore.text = playerTwoScore.toString()
         }
+
+        binding.btFinishMatch.setOnClickListener {
+            val ret = Intent()
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_ONE_NAME, binding.tvPlayerOneName.text.toString())
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_TWO_NAME, binding.tvPlayerTwoName.text.toString())
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_ONE_SCORE,
+                binding.tvPlayerOneScore.text.toString().toInt())
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_TWO_SCORE,
+                binding.tvPlayerTwoScore.text.toString().toInt())
+            setResult(RESULT_OK, ret)
+            super.finish()
+        }
+
+
     }
 
     private fun setUpExtras(savedInstanceState: Bundle?) {
@@ -48,6 +64,8 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
+
         binding.tvPlayerOneName.text = intent.getStringExtra("PLAYER1")
         binding.tvPlayerTwoName.text = intent.getStringExtra("PLAYER2")
 
